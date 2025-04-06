@@ -1,0 +1,37 @@
+{
+  "hotels": [
+    {
+      "id": 1,
+      "country": "France",
+      "locality": "Montelimar",
+      "address": "Troitskaya st., 10",
+      "name": "Hotel du Parc",
+      "image": "hotel.jpg",
+      "description": ""
+    },
+    {
+      "id": 2,
+      "country": "Belarus",
+      "locality": "Grodno",
+      "address": "BLK, 44/1",
+      "name": "Belarus",
+      "image": "/hotel.jpg"
+    },
+    {
+      "id": 3,
+      "country": "Ukraine",
+      "locality": "Kyiv",
+      "address": "Hmelnickogo, 34",
+      "name": "CITYHOTEL",
+      "image": "/hotel.jpg"
+    },
+    {
+      "id": 4,
+      "country": "Belgium",
+      "locality": "Liege",
+      "address": "Lenina, 32",
+      "name": "Allianz",
+      "image": "/hotel.jpg"
+    }
+  ]
+}
