@@ -5,7 +5,7 @@ using HotelBooking2025.Application.DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace HotelBooking2025.Server.Controllers
+namespace HotelBooking2025.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -18,8 +18,14 @@ namespace HotelBooking2025.Server.Controllers
             _hotelsService = hotelsService;
         }
 
-        // GET: api/<HotelsController>
         [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _hotelsService.GetListAsync());
+        }
+
+        // GET: api/<HotelsController>
+        [HttpGet("search")]
         public async Task<IActionResult> Get(string country, string locality, DateOnly fromDate, DateOnly toDate, int adultNum, int childNum)
         {
             //var hotels = new Hotel[]
@@ -46,23 +52,30 @@ namespace HotelBooking2025.Server.Controllers
 
         // POST api/<HotelsController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] HotelDTO hotel)
+        public async Task<IActionResult> Post([FromForm] HotelUploadModel hotel)
         {
-            var added = await _hotelsService.AddAsync(hotel);
-            if (added != null)
-                return CreatedAtAction(nameof(Get), new { id = added.Id }, added);
-            else
+            try
+            {
+                var added = await _hotelsService.AddAsync(hotel);
+                if (added != null)
+                    return CreatedAtAction(nameof(Get), new { id = added.Id }, added);
+                else
+                    return StatusCode(500, "Internal server error");
+            }
+            catch
+            {
                 return StatusCode(500, "Internal server error");
+            }
         }
 
         // PUT api/<HotelsController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] HotelDTO hotel)
+        public async Task<IActionResult> Put(int id, [FromForm] HotelUploadModel hotel)
         {
             if (id != hotel.Id)
                 return BadRequest();
 
-            var updated = await _hotelsService.UpdateAsync(hotel);
+            var updated = await _hotelsService.EditAsync(hotel);
             if (updated != null && updated.Id == id)
                 return Ok(updated);
             else

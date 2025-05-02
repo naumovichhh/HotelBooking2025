@@ -25,10 +25,24 @@ function failure() {
     };
 }
 
-async function fetchHotels(dispatch, params) {
+async function fetchHotelsSearch(dispatch, params) {
     dispatch(requesting());
     try {
-        let response = await request("api/hotels" + "?" + paramsToQuery(params), {
+        let response = await request("/api/hotels/search" + "?" + paramsToQuery(params), {
+            method: "GET"
+        });
+        if (response.ok) dispatch(success(await response.json()));
+        else throw new Error(response.statusText);
+    }
+    catch {
+        dispatch(failure());
+    }
+}
+
+async function fetchHotels(dispatch) {
+    dispatch(requesting());
+    try {
+        let response = await request("/api/hotels", {
             method: "GET"
         });
         if (response.ok) dispatch(success(await response.json()));
@@ -44,4 +58,4 @@ function paramsToQuery(params) {
 &to=${params.toDate}&adult=${params.adultNum}&childNum=${params.childNum}`;
 }
 
-export { fetchHotels };
+export { fetchHotels, fetchHotelsSearch };

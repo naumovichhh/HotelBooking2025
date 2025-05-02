@@ -18,7 +18,7 @@ function Catalog({ inProcess, hotelsList, failed, fulfilled }) {
     } else if (hotelsList.length > 0) {
         const markupList = hotelsList.map(hotel => <li key={hotel.name} className="list-group-item d-flex align-items-center">
             <div className="image-parent" style={{ maxWidth: "100px", maxHeight: "100px" }} >
-                <img src={hotel.image} className="img-fluid" alt="lay" />
+                <img src={"/img/" + hotel.image} className="img-fluid" alt="lay" />
             </div>
             <div className="ms-4" >
                 <h2><a href="/inactive" onClick={(e) => { e.preventDefault(); onClick(hotel.id) }}>{hotel.name}</a></h2>

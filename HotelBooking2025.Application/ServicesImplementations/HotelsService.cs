@@ -3,18 +3,22 @@ using HotelBooking2025.Core.Repositories;
 using HotelBooking2025.Application.DTO;
 using HotelBooking2025.Application.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace HotelBooking2025.Application.ServicesImplementations
 {
     public class HotelsService : IHotelsService
     {
         private readonly IGenericRepository<Hotel> _repository;
+        private readonly IWebHostEnvironment _environment;
         private readonly IMapper _mapper;
 
-        public HotelsService(IGenericRepository<Hotel> repository, IMapper mapper)
+        public HotelsService(IGenericRepository<Hotel> repository, IMapper mapper, IWebHostEnvironment environment)
         {
             _repository = repository;
             _mapper = mapper;
+            _environment = environment;
         }
 
         public async Task<HotelDTO?> GetByIdAsync(int id)
@@ -46,15 +50,29 @@ namespace HotelBooking2025.Application.ServicesImplementations
             return entities.Select(entity => _mapper.Map<HotelDTO>(entity)).ToList();
         }
 
-        public async Task<HotelDTO?> AddAsync(HotelDTO hotel)
+        public async Task<HotelDTO?> AddAsync(HotelUploadModel hotelUploadModel)
         {
-            var entity = await _repository.AddAsync(_mapper.Map<Hotel>(hotel));
+            var imageFile = hotelUploadModel.Image;
+            var imageFilePath = UploadImageFile(imageFile);
+            var hotelEntity = new Hotel()
+            {
+                Name = hotelUploadModel.Name,
+                Description = hotelUploadModel.Description,
+                Image = imageFilePath,
+                Stars = hotelUploadModel.Stars,
+                Locality = hotelUploadModel.Locality,
+                Country = hotelUploadModel.Country,
+                Address = hotelUploadModel.Address
+            };
+
+            var entity = await _repository.AddAsync(hotelEntity);
             return _mapper.Map<HotelDTO>(entity);
         }
 
-        public async Task<HotelDTO?> UpdateAsync(HotelDTO hotel)
+        public async Task<HotelDTO?> EditAsync(HotelUploadModel hotel)
         {
-            var entity = await _repository.UpdateAsync(_mapper.Map<Hotel>(hotel));
+            throw new NotImplementedException();
+            var entity = await _repository.EditAsync(_mapper.Map<Hotel>(hotel));
             return _mapper.Map<HotelDTO>(entity);
         }
 
@@ -62,6 +80,28 @@ namespace HotelBooking2025.Application.ServicesImplementations
         {
             var entity = await _repository.DeleteAsync(id);
             return _mapper.Map<HotelDTO>(entity);
+        }
+
+        private string UploadImageFile(IFormFile imageFile)
+        {
+            try
+            {
+                string fileName = Path.Combine(_environment.WebRootPath, "img", Guid.NewGuid() + Path.GetExtension(imageFile.FileName));//$"{_environment.WebRootPath}{Path.DirectorySeparatorChar}img{Path.DirectorySeparatorChar}{Guid.NewGuid()}{Path.GetExtension(imageFile.FileName)}";
+                using (Stream readStream = imageFile.OpenReadStream(), writeStream = File.Create(fileName))
+                {
+                    byte[] buffer = new byte[readStream.Length];
+                    readStream.Read(buffer, 0, buffer.Length);
+                    writeStream.Write(buffer, 0, buffer.Length);
+                }
+
+                return Path.GetFileName(fileName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return null;
         }
     }
 }

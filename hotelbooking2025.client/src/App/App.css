@@ -22,6 +22,41 @@ th, td {
     text-align: center;
 }
 
+.table-fixed {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.fullscreen-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.fullscreen-container {
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    padding-bottom: 40px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.fullscreen-content {
+    margin: auto;
+    display: block;
+    width: 93%;
+}
+
 .App-logo {
     animation: App-logo-spin infinite 20s linear;
     height: 40vmin;

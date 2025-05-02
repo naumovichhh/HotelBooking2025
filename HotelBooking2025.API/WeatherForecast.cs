@@ -1,4 +1,4 @@
-namespace HotelBooking2025.Server
+namespace HotelBooking2025.API
 {
     public class WeatherForecast
     {

@@ -3,7 +3,7 @@ import Catalog from './Catalog';
 //import { fetchHotels as fetchHotelsAction } from '../../../actions';
 import { useContext, useEffect } from 'react';
 import HotelsContext from '@/store/contexts/HotelsContext';
-import { fetchHotels } from '@/store/actions/hotels';
+import { fetchHotelsSearch } from '@/store/actions/hotels';
 
 function CatalogContainer() {
     //componentDidMount() {
@@ -22,7 +22,7 @@ function CatalogContainer() {
     useEffect(() => {
         if (searchCountry) {
             const params = getSearchParams(searchParams);
-            fetchHotels(hotelsContext.dispatch, params);
+            fetchHotelsSearch(hotelsContext.dispatch, params);
         }
     }, [searchParams]);
 

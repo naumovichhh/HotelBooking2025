@@ -8,8 +8,8 @@ namespace HotelBooking2025.Application.Services
         public Task<HotelDTO?> GetByIdAsync(int id);
         public Task<IList<HotelDTO>> GetFilteredAsync(Func<HotelDTO, bool> predicate);
         public Task<IList<HotelDTO>> GetListAsync();
-        public Task<HotelDTO?> AddAsync(HotelDTO hotel);
-        public Task<HotelDTO?> UpdateAsync(HotelDTO hotel);
+        public Task<HotelDTO?> AddAsync(HotelUploadModel hotel);
+        public Task<HotelDTO?> EditAsync(HotelUploadModel hotel);
         public Task<HotelDTO?> DeleteAsync(int id);
     }
 }

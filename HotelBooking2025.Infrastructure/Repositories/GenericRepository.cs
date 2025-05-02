@@ -37,7 +37,7 @@ namespace HotelBooking2025.Infrastructure.Repositories
             return entry.Entity;
         }
 
-        public async Task<T?> UpdateAsync(T entity)
+        public async Task<T?> EditAsync(T entity)
         {
             _dbSet.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();

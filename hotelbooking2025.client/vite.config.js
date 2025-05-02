@@ -53,6 +53,10 @@ export default defineConfig({
             '^/api/hotels': {
                 target: 'https://localhost:7298/',
                 secure: false
+            },
+            '^/img': {
+                target: 'https://localhost:7298/',
+                secure: false
             }
         },
         port: 5173,

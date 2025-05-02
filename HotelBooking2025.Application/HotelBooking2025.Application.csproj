@@ -14,5 +14,9 @@
   <ItemGroup>
     <ProjectReference Include="..\HotelBooking2025.Core\HotelBooking2025.Core.csproj" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
 </Project>

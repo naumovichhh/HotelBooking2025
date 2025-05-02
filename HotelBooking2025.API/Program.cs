@@ -1,6 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using HotelBooking2025.Infrastructure.Contexts;
 using HotelBooking2025.Infrastructure.Initializers;
-using HotelBooking2025.Server.Utilities;
+using HotelBooking2025.Infrastructure.Repositories;
+using HotelBooking2025.API.Utilities;
+using HotelBooking2025.Application.Services;
+using HotelBooking2025.Application.ServicesImplementations;
+using HotelBooking2025.Core.Repositories;
+using HotelBooking2025.Core.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +17,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperDefaultProfile));
+builder.Services.AddScoped<IHotelsService, HotelsService>();
+builder.Services.AddScoped<IGenericRepository<Hotel>, GenericRepository<Hotel>>();
 
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<HotelBooking2025.Infrastructure.Contexts.DefaultContext>(options =>
+builder.Services.AddDbContext<DefaultContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
