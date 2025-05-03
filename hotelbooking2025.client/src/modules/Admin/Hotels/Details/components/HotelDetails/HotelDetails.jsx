@@ -1,5 +1,6 @@
 import { Spinner, Alert } from "react-bootstrap";
 import FullScreenImage from "./FullScreenImage";
+import { useNavigate } from "react-router-dom";
 
 function HotelDetails({
     id,
@@ -13,17 +14,20 @@ function HotelDetails({
     failed,
     fulfilled,
     showFullScreenImage,
-    onFullScreenImageToggle
+    onFullScreenImageToggle,
+    errorMessage
 }) {
+    let content;
+    const navigate = useNavigate();
     if (inProcess)
-        return <Spinner animation="border" />;
+        content = <Spinner animation="border" />;
     if (failed)
-        return <Alert variant="danger">
-            <Alert.Heading>Loading failed</Alert.Heading>
+        content = <Alert variant="danger">
+            <Alert.Heading>{errorMessage}</Alert.Heading>
         </Alert>;
 
     if (fulfilled)
-        return <>
+        content = <>
             <h2>Details</h2>
             <hr />
             <dl className="row">
@@ -52,6 +56,20 @@ function HotelDetails({
 
             {showFullScreenImage && <FullScreenImage src={"/img/" + picture} onClose={onFullScreenImageToggle} />}
         </>;
+
+    return <>
+        <div className="mb-3" >{content}</div>
+        <div>
+            {!inProcess && (<><a href="" onClick={(e) => { e.preventDefault(); navigate(-1); }}>Go back</a>{fulfilled && (
+                <>
+                    {" | "}
+                    <a href="" onClick={(e) => { e.preventDefault(); navigate("/admin/hotels/edit/" + id); }}>Edit</a>
+                    {" | "}
+                    <a href="" onClick={(e) => { e.preventDefault(); navigate("/admin/hotels/delete/" + id); }}>Delete</a>
+                </>)}
+            </>)}
+        </div>
+    </>;
 }
 
 export default HotelDetails;

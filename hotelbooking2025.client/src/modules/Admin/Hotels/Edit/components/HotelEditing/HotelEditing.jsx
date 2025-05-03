@@ -2,7 +2,7 @@ import { Form, Button } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
 import Select from 'react-select';
 
-function HotelAdding({
+function HotelEditing({
     countries,
     control,
     onSubmit,
@@ -63,4 +63,4 @@ function HotelAdding({
     </div>;
 }
 
-export default HotelAdding;
+export default HotelEditing;

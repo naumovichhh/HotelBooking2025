@@ -32,7 +32,7 @@ function HotelDeleteConfirmation({
 
     if (fulfilled)
         content = <>
-            <h2>Details</h2>
+            <h2>Delete</h2>
             <hr />
             <h3>Are you sure you want to delete this hotel?</h3>
             <dl className="row">

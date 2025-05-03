@@ -73,7 +73,7 @@ namespace HotelBooking2025.API.Controllers
         public async Task<IActionResult> Put(int id, [FromForm] HotelUploadModel hotel)
         {
             if (id != hotel.Id)
-                return BadRequest();
+                return BadRequest("Ids are not matching");
 
             var updated = await _hotelsService.EditAsync(hotel);
             if (updated != null && updated.Id == id)

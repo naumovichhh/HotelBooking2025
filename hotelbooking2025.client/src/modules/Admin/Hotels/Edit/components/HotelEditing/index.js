@@ -1,0 +1,1 @@
+export { fetchHotel, HotelEditingContainer as HotelEditing } from "./HotelEditingContainer";

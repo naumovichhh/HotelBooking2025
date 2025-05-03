@@ -69,11 +69,32 @@ namespace HotelBooking2025.Application.ServicesImplementations
             return _mapper.Map<HotelDTO>(entity);
         }
 
-        public async Task<HotelDTO?> EditAsync(HotelUploadModel hotel)
+        public async Task<HotelDTO?> EditAsync(HotelUploadModel hotelUploadModel)
         {
-            throw new NotImplementedException();
-            var entity = await _repository.EditAsync(_mapper.Map<Hotel>(hotel));
-            return _mapper.Map<HotelDTO>(entity);
+            Hotel existingEntity = await _repository.GetByIdAsync(hotelUploadModel.Id.Value);
+            if (existingEntity == null)
+                return null;
+
+            var updatedEntity = new Hotel()
+            {
+                Id = existingEntity.Id,
+                Name = hotelUploadModel.Name,
+                Description = hotelUploadModel.Description,
+                Image = existingEntity.Image,
+                Stars = hotelUploadModel.Stars,
+                Locality = hotelUploadModel.Locality,
+                Country = hotelUploadModel.Country,
+                Address = existingEntity.Address
+            };
+
+            if (hotelUploadModel.Image != null)
+            {
+                var imageFilePath = UploadImageFile(hotelUploadModel.Image);
+                updatedEntity.Image = imageFilePath;
+            }
+
+            var resultEntity = await _repository.EditAsync(updatedEntity);
+            return _mapper.Map<HotelDTO>(resultEntity);
         }
 
         public async Task<HotelDTO?> DeleteAsync(int id)

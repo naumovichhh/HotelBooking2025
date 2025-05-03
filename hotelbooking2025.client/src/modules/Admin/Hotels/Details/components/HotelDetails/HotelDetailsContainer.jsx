@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 function HotelDetailsContainer() {
     const { id } = useParams();
     const [hotel, setHotel] = useState(null);
-    const [status, setStatus] = useState({ inProcess: true, failed: false, fulfilled: false });
+    const [status, setStatus] = useState({ inProcess: true, failed: false, fulfilled: false, errorMessage: "" });
     const [showFullScreenImage, setShowFullScreenImage] = useState(false);
 
     useEffect(() => {
@@ -22,8 +22,8 @@ function HotelDetailsContainer() {
                     throw new Error(response.statusText);
                 }
             }
-            catch {
-                setStatus({ inProcess: false, failed: true, fulfilled: false });
+            catch (e) {
+                setStatus({ inProcess: false, failed: true, fulfilled: false, errorMessage: e.message });
             }
         }
 
