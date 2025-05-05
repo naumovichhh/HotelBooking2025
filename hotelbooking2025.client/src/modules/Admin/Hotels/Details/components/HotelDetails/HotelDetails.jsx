@@ -9,6 +9,7 @@ function HotelDetails({
     locality,
     description,
     stars,
+    address,
     image: picture,
     inProcess,
     failed,
@@ -39,6 +40,8 @@ function HotelDetails({
                 <dd className="col-sm-10">{country}</dd>
                 <dt className="col-sm-2">Locality</dt>
                 <dd className="col-sm-10">{locality}</dd>
+                <dt className="col-sm-2">Address</dt>
+                <dd className="col-sm-10">{address}</dd>
                 <dt className="col-sm-2">Description</dt>
                 <dd className="col-sm-10">{description}</dd>
                 <dt className="col-sm-2">Stars</dt>

@@ -56,7 +56,7 @@ function HotelEditing({
                 </div>
                 {submitErrorMessage && <div className="mb-3"><span className="text-danger">{submitErrorMessage}</span></div>}
                 <div className="mb-3">
-                    <Button variant="primary" type="submit">Add</Button>
+                    <Button variant="primary" type="submit">Save</Button>
                 </div>
             </Form>
         </div>

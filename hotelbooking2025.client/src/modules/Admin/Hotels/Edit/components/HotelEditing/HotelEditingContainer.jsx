@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate, useLoaderData } from "react-router-dom";
+import { useState } from "react";
 
 async function fetchHotel({ params }) {
     const { id } = params;
@@ -14,7 +15,7 @@ async function fetchHotel({ params }) {
         return jsonResult;
     }
     else {
-        throw new Error(response.statusText);
+        throw new Error(response.status + " " + response.statusText);
     }
 }
 
@@ -26,8 +27,8 @@ function HotelEditingContainer() {
         name: yup.string().required("Name is required").min(3, "Name must be at least 3 characters"),
         locality: yup.string().required("Locality is required"),
         address: yup.string().required("Address is required"),
-        picture: yup.mixed().test("fileSize", "Maximum picture file size is 2 MB", value => {
-                return value && value[0] && value[0].size <= 2 * 1024 * 1024
+        picture: yup.mixed().nullable().test("fileSize", "Maximum picture file size is 2 MB", value => {
+                return (value && value[0] && value[0].size <= 2 * 1024 * 1024) || (!value || (value.length === 0))
             }),
         country: yup.object().shape({ value: yup.string().required(), label: yup.string().required() })
             .required("Country is required"),

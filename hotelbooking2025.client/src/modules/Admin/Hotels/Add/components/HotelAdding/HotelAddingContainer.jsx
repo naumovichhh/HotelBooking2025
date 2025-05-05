@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function HotelAddingContainer() {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ function HotelAddingContainer() {
         name: yup.string().required("Name is required").min(3, "Name must be at least 3 characters"),
         locality: yup.string().required("Locality is required"),
         address: yup.string().required("Address is required"),
-        picture: yup.mixed().required("Picture is required")
+        picture: yup.mixed().nullable().test("required", "Picture is required", value => value && value.length > 0)
             .test("fileSize", "Maximum picture file size is 2 MB", value => {
                 return value && value[0] && value[0].size <= 2 * 1024 * 1024
             }),

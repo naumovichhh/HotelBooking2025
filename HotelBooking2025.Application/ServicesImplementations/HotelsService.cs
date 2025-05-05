@@ -75,25 +75,21 @@ namespace HotelBooking2025.Application.ServicesImplementations
             if (existingEntity == null)
                 return null;
 
-            var updatedEntity = new Hotel()
-            {
-                Id = existingEntity.Id,
-                Name = hotelUploadModel.Name,
-                Description = hotelUploadModel.Description,
-                Image = existingEntity.Image,
-                Stars = hotelUploadModel.Stars,
-                Locality = hotelUploadModel.Locality,
-                Country = hotelUploadModel.Country,
-                Address = existingEntity.Address
-            };
+
+            existingEntity.Name = hotelUploadModel.Name;
+            existingEntity.Description = hotelUploadModel.Description;
+            existingEntity.Stars = hotelUploadModel.Stars;
+            existingEntity.Locality = hotelUploadModel.Locality;
+            existingEntity.Country = hotelUploadModel.Country;
+            existingEntity.Address = hotelUploadModel.Address;
 
             if (hotelUploadModel.Image != null)
             {
                 var imageFilePath = UploadImageFile(hotelUploadModel.Image);
-                updatedEntity.Image = imageFilePath;
+                existingEntity.Image = imageFilePath;
             }
 
-            var resultEntity = await _repository.EditAsync(updatedEntity);
+            var resultEntity = await _repository.EditAsync(existingEntity);
             return _mapper.Map<HotelDTO>(resultEntity);
         }
 
